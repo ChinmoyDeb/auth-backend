@@ -1,19 +1,18 @@
-$challenge = (Get-Content challenge.txt).Trim()
-$commit = (git rev-parse HEAD).Trim()
+Write-Host "Generating cryptographic proof..."
 
-$message = $challenge + $commit
+cd ..
 
-$sha = New-Object System.Security.Cryptography.SHA256Managed
-$hashBytes = $sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($message))
+node generate-proof.js
 
-$hashHex = [BitConverter]::ToString($hashBytes).Replace("-", "")
+cd PROOF_OF_SUBMISSION
 
-Set-Content proof.txt $hashHex
+Write-Host ""
+Write-Host "Latest commit hash:"
+git rev-parse HEAD
 
-@"
------BEGIN PUBLIC KEY-----
-PLACEHOLDER_PUBLIC_KEY
------END PUBLIC KEY-----
-"@ | Set-Content proof_pub.pem
+Write-Host ""
+Write-Host "Generated files:"
+Get-ChildItem proof.txt, proof_pub.pem
 
-Write-Host "Proof generated"
+Write-Host ""
+Write-Host "Proof generation complete."
