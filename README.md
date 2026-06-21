@@ -1,6 +1,8 @@
+\# Auth Backend
 
 
-\# PostgreSQL Backend Challenge
+
+A secure PostgreSQL backend implementing JWT Authentication, Refresh Tokens, Two-Factor Authentication (2FA) using OTP, Forgot Password flow, and automated tests.
 
 
 
@@ -8,29 +10,139 @@
 
 
 
-\* JWT Authentication
+\* User Registration
 
-\* Access Token + Refresh Token
+\* User Login
 
-\* OTP-based Two Factor Authentication
+\* JWT Access Token Authentication
 
-\* Forgot Password Flow
+\* Refresh Token Support
+
+\* Logout
 
 \* Protected Profile Endpoint
 
-\* PostgreSQL + Prisma ORM
+\* Two-Factor Authentication (OTP)
 
-\* Input Validation using express-validator
+\* Forgot Password Flow
+
+\* Password Reset using OTP
+
+\* Single-use OTPs
+
+\* OTP Expiration
+
+\* Refresh Token Storage in PostgreSQL
+
+\* Request Validation
 
 \* Rate Limiting
 
-\* Mock SMS Gateway (logs OTPs to logs/otp.log)
-
 \* Automated Tests
 
+\* Prisma ORM + PostgreSQL
 
 
-\## Setup
+
+\---
+
+
+
+\## Tech Stack
+
+
+
+\* Node.js
+
+\* Express.js
+
+\* PostgreSQL
+
+\* Prisma ORM
+
+\* JWT
+
+\* bcrypt
+
+\* Jest
+
+\* Supertest
+
+\* express-validator
+
+\* express-rate-limit
+
+
+
+\---
+
+
+
+\## Project Structure
+
+
+
+```
+
+auth-backend
+
+│
+
+├── prisma/
+
+├── src/
+
+│   ├── config/
+
+│   ├── controllers/
+
+│   ├── middleware/
+
+│   ├── routes/
+
+│   ├── app.js
+
+│   └── server.js
+
+│
+
+├── tests/
+
+├── logs/
+
+├── PROOF\_OF\_SUBMISSION/
+
+├── README.md
+
+├── SUBMISSION.md
+
+├── CHECKLIST.md
+
+└── package.json
+
+```
+
+
+
+\---
+
+
+
+\## Installation
+
+
+
+Clone repository:
+
+
+
+```bash
+
+git clone https://github.com/ChinmoyDeb/auth-backend.git
+
+cd auth-backend
+
+```
 
 
 
@@ -46,7 +158,51 @@ npm install
 
 
 
-Apply migrations:
+\---
+
+
+
+\## Environment Variables
+
+
+
+Create `.env`
+
+
+
+```env
+
+DATABASE\_URL=postgresql://username:password@localhost:5432/authdb
+
+
+
+JWT\_SECRET=secret
+
+REFRESH\_TOKEN\_SECRET=refreshsecret
+
+
+
+ACCESS\_TOKEN\_EXPIRE=15m
+
+REFRESH\_TOKEN\_EXPIRE=7d
+
+
+
+PORT=5000
+
+```
+
+
+
+\---
+
+
+
+\## Database Migration
+
+
+
+Run:
 
 
 
@@ -58,7 +214,23 @@ npx prisma migrate dev
 
 
 
-Insert seed data:
+Generate Prisma client:
+
+
+
+```bash
+
+npx prisma generate
+
+```
+
+
+
+\---
+
+
+
+\## Seed Database
 
 
 
@@ -70,7 +242,15 @@ npm run seed
 
 
 
-Start server:
+\---
+
+
+
+\## Run Server
+
+
+
+Development:
 
 
 
@@ -82,35 +262,223 @@ npm run dev
 
 
 
-Run tests:
+Production:
 
 
 
 ```bash
 
-npm test
+npm start
 
 ```
 
 
 
-\## Environment Variables
+\---
 
 
 
-Create a .env file containing:
+\## API Endpoints
 
 
 
-\* DATABASE\_URL
+\### Register
 
-\* JWT\_SECRET
 
-\* REFRESH\_TOKEN\_SECRET
 
-\* ACCESS\_TOKEN\_EXPIRE
+POST
 
-\* REFRESH\_TOKEN\_EXPIRE
+
+
+```
+
+/api/auth/register
+
+```
+
+
+
+Body:
+
+
+
+```json
+
+{
+
+&#x20; "email":"user@test.com",
+
+&#x20; "password":"password123",
+
+&#x20; "phone":"+919999999999"
+
+}
+
+```
+
+
+
+\---
+
+
+
+\### Login
+
+
+
+POST
+
+
+
+```
+
+/api/auth/login
+
+```
+
+
+
+\---
+
+
+
+\### Refresh Token
+
+
+
+POST
+
+
+
+```
+
+/api/auth/refresh
+
+```
+
+
+
+\---
+
+
+
+\### Logout
+
+
+
+POST
+
+
+
+```
+
+/api/auth/logout
+
+```
+
+
+
+\---
+
+
+
+\### Enable 2FA
+
+
+
+POST
+
+
+
+```
+
+/api/auth/2fa/enable
+
+```
+
+
+
+\---
+
+
+
+\### Verify 2FA
+
+
+
+POST
+
+
+
+```
+
+/api/auth/2fa/verify
+
+```
+
+
+
+\---
+
+
+
+\### Forgot Password
+
+
+
+POST
+
+
+
+```
+
+/api/auth/forgot-password
+
+```
+
+
+
+\---
+
+
+
+\### Reset Password
+
+
+
+POST
+
+
+
+```
+
+/api/auth/reset-password
+
+```
+
+
+
+\---
+
+
+
+\### Protected Profile
+
+
+
+GET
+
+
+
+```
+
+/api/auth/profile
+
+```
+
+
+
+\---
 
 
 
@@ -118,7 +486,11 @@ Create a .env file containing:
 
 
 
-OTP messages are logged in:
+This project uses a mock SMS gateway.
+
+
+
+Generated OTPs are stored inside:
 
 
 
@@ -130,35 +502,127 @@ logs/otp.log
 
 
 
-instead of using Twilio.
+This avoids SMS provider costs while preserving the complete OTP flow.
 
 
 
-\## Test Account
+\---
 
 
 
-Email:
+\## Running Tests
+
+
+
+```bash
+
+npm test
+
+```
+
+
+
+Current status:
 
 
 
 ```
 
-seed@test.com
+18 tests passed
 
 ```
 
 
 
-Password:
+\---
+
+
+
+\## Security Features
+
+
+
+\* bcrypt password hashing
+
+\* JWT access tokens
+
+\* Refresh tokens
+
+\* Input validation
+
+\* Rate limiting
+
+\* Single-use OTPs
+
+\* OTP expiration
+
+\* Protected routes
+
+\* PostgreSQL storage
+
+\* Prisma ORM to prevent SQL injection
+
+
+
+\---
+
+
+
+\## Proof of Submission
+
+
+
+Files are available in:
 
 
 
 ```
 
-password123
+PROOF\_OF\_SUBMISSION/
 
 ```
+
+
+
+Contains:
+
+
+
+\* challenge.txt
+
+\* proof.txt
+
+\* proof\_pub.pem
+
+\* compute\_proof.ps1
+
+
+
+\---
+
+
+
+\## Repository
+
+
+
+https://github.com/ChinmoyDeb/auth-backend
+
+
+
+\---
+
+
+
+\## Author
+
+
+
+Chinmoy Deb
+
+
+
+B.Tech CSE (IoT), VIT Vellore
 
 
 
