@@ -1,1136 +1,568 @@
-\# Auth Backend
+# Auth Backend
 
-
-
-A secure authentication backend built using \*\*Node.js\*\*, \*\*Express.js\*\*, \*\*PostgreSQL\*\*, and \*\*Prisma ORM\*\*.
-
-
+A secure authentication backend built using **Node.js**, **Express.js**, **PostgreSQL**, and **Prisma ORM**.
 
 This project implements:
 
+- JWT Authentication
+- Refresh Token Flow
+- Two Factor Authentication (OTP)
+- Forgot Password Flow
+- Password Reset
+- Protected Routes
+- Request Validation
+- Rate Limiting
+- Automated Tests
+- Prisma Migrations
+- Seed Data
+- Mock SMS Gateway
 
+---
 
-\- JWT Authentication
+# Features
 
-\- Refresh Token Flow
-
-\- Two Factor Authentication (OTP)
-
-\- Forgot Password Flow
-
-\- Password Reset
-
-\- Protected Routes
-
-\- Request Validation
-
-\- Rate Limiting
-
-\- Automated Tests
-
-\- Prisma Migrations
-
-\- Seed Data
-
-\- Mock SMS Gateway
-
-
-
-\---
-
-
-
-\# Features
-
-
-
-\## User Registration
-
-
+## User Registration
 
 Create a new account with:
 
+- Email
+- Password
+- Phone Number
 
+Passwords are hashed using **bcrypt** before being stored.
 
-\- Email
+---
 
-\- Password
-
-\- Phone Number
-
-
-
-Passwords are hashed using \*\*bcrypt\*\* before being stored.
-
-
-
-\---
-
-
-
-\## Login
-
-
+## Login
 
 Users can login using email and password.
 
-
-
 Returns:
 
-
-
-\- Access Token
-
-\- Refresh Token
-
-
+- Access Token
+- Refresh Token
 
 If 2FA is enabled:
 
+- `requires2FA = true`
+- OTP verification is required before issuing tokens.
 
+---
 
-\- `requires2FA = true`
-
-\- OTP verification is required before issuing tokens.
-
-
-
-\---
-
-
-
-\## JWT Authentication
-
-
+## JWT Authentication
 
 Protected routes require a valid access token.
 
-
-
 Access tokens are short-lived.
 
+---
 
-
-\---
-
-
-
-\## Refresh Tokens
-
-
+## Refresh Tokens
 
 Long-lived refresh tokens are stored in PostgreSQL.
 
-
-
 Used to generate new access tokens.
 
+---
 
-
-\---
-
-
-
-\## Logout
-
-
+## Logout
 
 Invalidates stored refresh tokens.
 
+---
 
-
-\---
-
-
-
-\## Two Factor Authentication (2FA)
-
-
+## Two Factor Authentication (2FA)
 
 Users can enable 2FA.
 
-
-
 OTP is generated and delivered using a mock SMS gateway.
-
-
 
 OTP is:
 
+- Single use
+- Time limited
+- Stored in PostgreSQL
 
+---
 
-\- Single use
-
-\- Time limited
-
-\- Stored in PostgreSQL
-
-
-
-\---
-
-
-
-\## Forgot Password
-
-
+## Forgot Password
 
 Users can request a password reset.
 
-
-
 OTP is generated.
-
-
 
 OTP:
 
+- Expires automatically
+- Can only be used once
 
+---
 
-\- Expires automatically
-
-\- Can only be used once
-
-
-
-\---
-
-
-
-\## Password Reset
-
-
+## Password Reset
 
 Users provide:
 
-
-
-\- Email
-
-\- OTP
-
-\- New Password
-
-
+- Email
+- OTP
+- New Password
 
 Password is updated after successful verification.
 
+---
 
-
-\---
-
-
-
-\## Validation
-
-
+## Validation
 
 Input validation is performed using:
 
-
-
-\- express-validator
-
-
+- express-validator
 
 Checks:
 
+- Valid email
+- Password length
+- Required fields
 
+---
 
-\- Valid email
-
-\- Password length
-
-\- Required fields
-
-
-
-\---
-
-
-
-\## Rate Limiting
-
-
+## Rate Limiting
 
 Authentication routes are protected using:
 
-
-
-\- express-rate-limit
-
-
+- express-rate-limit
 
 Helps prevent brute-force attacks.
 
+---
 
-
-\---
-
-
-
-\## Automated Testing
-
-
+## Automated Testing
 
 Integration tests cover:
 
+- Registration
+- Login
+- Duplicate registration
+- Invalid login
+- Protected profile route
+- Refresh token flow
+- Logout
+- Forgot password
+- Password reset
+- Login with new password
+- Enable 2FA
+- Verify 2FA
+- Login requiring OTP
+- OTP verification
+- Reused OTP
+- Expired OTP
 
+### Current Status
 
-\- Registration
+✅ **18 tests passed**
 
-\- Login
+---
 
-\- Duplicate registration
+# Technology Stack
 
-\- Invalid login
+## Backend
 
-\- Protected profile route
+- Node.js
+- Express.js
 
-\- Refresh token flow
+## Database
 
-\- Logout
+- PostgreSQL
+- Prisma ORM
 
-\- Forgot password
+## Authentication
 
-\- Password reset
+- JWT
+- bcrypt
 
-\- Login with new password
+## Validation
 
-\- Enable 2FA
+- express-validator
 
-\- Verify 2FA
+## Security
 
-\- Login requiring OTP
+- express-rate-limit
 
-\- OTP verification
+## Testing
 
-\- Reused OTP
+- Jest
+- Supertest
 
-\- Expired OTP
+---
 
-
-
-\### Current Status
-
-
-
-✅ \*\*18 tests passed\*\*
-
-
-
-\---
-
-
-
-\# Technology Stack
-
-
-
-\## Backend
-
-
-
-\- Node.js
-
-\- Express.js
-
-
-
-\## Database
-
-
-
-\- PostgreSQL
-
-\- Prisma ORM
-
-
-
-\## Authentication
-
-
-
-\- JWT
-
-\- bcrypt
-
-
-
-\## Validation
-
-
-
-\- express-validator
-
-
-
-\## Security
-
-
-
-\- express-rate-limit
-
-
-
-\## Testing
-
-
-
-\- Jest
-
-\- Supertest
-
-
-
-\---
-
-
-
-\# Project Structure
-
-
+# Project Structure
 
 ```text
-
 auth-backend
-
 │
-
 ├── prisma
-
 │   ├── migrations
-
 │   ├── schema.prisma
-
 │   └── seed.js
-
 │
-
 ├── src
-
 │   ├── config
-
 │   │   └── prisma.js
-
 │   │
-
 │   ├── controllers
-
 │   │   └── authController.js
-
 │   │
-
 │   ├── middleware
-
 │   │   ├── authMiddleware.js
-
 │   │   └── validationMiddleware.js
-
 │   │
-
 │   ├── routes
-
 │   │   └── authRoutes.js
-
 │   │
-
 │   ├── app.js
-
 │   └── server.js
-
 │
-
 ├── tests
-
 │   └── auth.test.js
-
 │
-
 ├── logs
-
 │   └── otp.log
-
 │
-
-├── PROOF\_OF\_SUBMISSION
-
+├── PROOF_OF_SUBMISSION
 │
-
 ├── README.md
-
 ├── SUBMISSION.md
-
 ├── CHECKLIST.md
-
 ├── package.json
-
 └── package-lock.json
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Requirements
-
-
+# Requirements
 
 Install:
 
+- Node.js 18+
+- PostgreSQL
+- Git
 
+---
 
-\- Node.js 18+
-
-\- PostgreSQL
-
-\- Git
-
-
-
-\---
-
-
-
-\# Clone Repository
-
-
+# Clone Repository
 
 ```bash
-
 git clone https://github.com/ChinmoyDeb/auth-backend.git
 
-
-
 cd auth-backend
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Install Dependencies
-
-
+# Install Dependencies
 
 ```bash
-
 npm install
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Environment Variables
-
-
+# Environment Variables
 
 Create a file named:
 
-
-
 ```text
-
 .env
-
 ```
-
-
 
 Example:
 
-
-
 ```env
+DATABASE_URL="postgresql://postgres:password@localhost:5432/authdb"
 
-DATABASE\_URL="postgresql://postgres:password@localhost:5432/authdb"
+JWT_SECRET="your_jwt_secret"
 
+REFRESH_TOKEN_SECRET="your_refresh_secret"
 
+ACCESS_TOKEN_EXPIRE=15m
 
-JWT\_SECRET="your\_jwt\_secret"
-
-
-
-REFRESH\_TOKEN\_SECRET="your\_refresh\_secret"
-
-
-
-ACCESS\_TOKEN\_EXPIRE=15m
-
-
-
-REFRESH\_TOKEN\_EXPIRE=7d
-
-
+REFRESH_TOKEN_EXPIRE=7d
 
 PORT=5000
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Generate Prisma Client
-
-
+# Generate Prisma Client
 
 ```bash
-
 npx prisma generate
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Apply Database Migrations
-
-
+# Apply Database Migrations
 
 ```bash
-
 npx prisma migrate dev
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Seed Database
-
-
+# Seed Database
 
 ```bash
-
 npm run seed
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Start Development Server
-
-
+# Start Development Server
 
 ```bash
-
 npm run dev
-
 ```
-
-
 
 Server:
 
-
-
 ```text
-
 http://localhost:5000
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Production Mode
-
-
+# Production Mode
 
 ```bash
-
 npm start
-
 ```
 
+---
 
+# API Endpoints
 
-\---
+## Register
 
-
-
-\# API Endpoints
-
-
-
-\## Register
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/register
-
 ```
-
-
 
 Request Body:
 
-
-
 ```json
-
 {
-
-&#x20; "email": "user@test.com",
-
-&#x20; "password": "password123",
-
-&#x20; "phone": "+919999999999"
-
+  "email": "user@test.com",
+  "password": "password123",
+  "phone": "+919999999999"
 }
-
 ```
 
+---
 
+## Login
 
-\---
-
-
-
-\## Login
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/login
-
 ```
-
-
 
 Request Body:
 
-
-
 ```json
-
 {
-
-&#x20; "email": "user@test.com",
-
-&#x20; "password": "password123"
-
+  "email": "user@test.com",
+  "password": "password123"
 }
-
 ```
 
+---
 
+## Refresh Token
 
-\---
-
-
-
-\## Refresh Token
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/refresh
-
 ```
 
+---
 
+## Logout
 
-\---
-
-
-
-\## Logout
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/logout
-
 ```
 
+---
 
+## Enable 2FA
 
-\---
-
-
-
-\## Enable 2FA
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/2fa/enable
-
 ```
-
-
 
 Requires Bearer Token.
 
+---
 
+## Verify 2FA
 
-\---
-
-
-
-\## Verify 2FA
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/2fa/verify
-
 ```
 
+---
 
+## Forgot Password
 
-\---
-
-
-
-\## Forgot Password
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/forgot-password
-
 ```
 
+---
 
+## Reset Password
 
-\---
-
-
-
-\## Reset Password
-
-
-
-\*\*POST\*\*
-
-
+**POST**
 
 ```text
-
 /api/auth/reset-password
-
 ```
 
+---
 
+## Profile
 
-\---
-
-
-
-\## Profile
-
-
-
-\*\*GET\*\*
-
-
+**GET**
 
 ```text
-
 /api/auth/profile
-
 ```
-
-
 
 Requires Authorization header.
 
+---
 
-
-\---
-
-
-
-\# OTP Delivery
-
-
+# OTP Delivery
 
 This project uses a mock SMS gateway.
 
-
-
 Generated OTPs are logged to:
 
-
-
 ```text
-
 logs/otp.log
-
 ```
-
-
 
 This allows testing without external SMS providers.
 
+---
 
-
-\---
-
-
-
-\# Running Tests
-
-
+# Running Tests
 
 ```bash
-
 npm test
-
 ```
-
-
 
 Expected output:
 
-
-
 ```text
-
 PASS tests/auth.test.js
 
-
-
 Test Suites: 1 passed, 1 total
-
 Tests:       18 passed, 18 total
-
 ```
 
+---
 
+# Security Measures
 
-\---
+- bcrypt password hashing
+- JWT access tokens
+- Refresh tokens
+- Request validation
+- Rate limiting
+- Protected routes
+- Single-use OTPs
+- OTP expiration
+- Prisma ORM helps prevent SQL injection
 
+---
 
-
-\# Security Measures
-
-
-
-\- bcrypt password hashing
-
-\- JWT access tokens
-
-\- Refresh tokens
-
-\- Request validation
-
-\- Rate limiting
-
-\- Protected routes
-
-\- Single-use OTPs
-
-\- OTP expiration
-
-\- Prisma ORM helps prevent SQL injection
-
-
-
-\---
-
-
-
-\# Database
-
-
+# Database
 
 Database used:
 
-
-
-\*\*PostgreSQL\*\*
-
-
+**PostgreSQL**
 
 Managed using:
 
-
-
-\*\*Prisma ORM\*\*
-
-
+**Prisma ORM**
 
 Migration files are located inside:
 
-
-
 ```text
-
 prisma/migrations
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Seed Data
-
-
+# Seed Data
 
 Seed script:
 
-
-
 ```text
-
 prisma/seed.js
-
 ```
-
-
 
 Run:
 
-
-
 ```bash
-
 npm run seed
-
 ```
 
+---
 
-
-\---
-
-
-
-\# Proof Of Submission
-
-
+# Proof Of Submission
 
 Folder:
 
-
-
 ```text
-
-PROOF\_OF\_SUBMISSION
-
+PROOF_OF_SUBMISSION
 ```
-
-
 
 Contains:
 
+- `challenge.txt`
+- `proof.txt`
+- `proof_pub.pem`
+- `compute_proof.ps1`
 
+---
 
-\- `challenge.txt`
-
-\- `proof.txt`
-
-\- `proof\_pub.pem`
-
-\- `compute\_proof.ps1`
-
-
-
-\---
-
-
-
-\# Repository
-
-
+# Repository
 
 ```text
-
 https://github.com/ChinmoyDeb/auth-backend
-
 ```
 
+---
 
+# Author
 
-\---
-
-
-
-\# Author
-
-
-
-\*\*Chinmoy Deb\*\*  
-
+**Chinmoy Deb**  
 B.Tech CSE  
-
 VIT Vellore  
-
 2023 – 2027
 
+---
 
-
-\---
-
-
-
-
-
+⭐ If you found this project useful, consider giving it a star.
