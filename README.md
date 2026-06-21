@@ -60,7 +60,7 @@ Create a new account with:
 
 
 
-Passwords are hashed using bcrypt before being stored.
+Passwords are hashed using \*\*bcrypt\*\* before being stored.
 
 
 
@@ -312,11 +312,11 @@ Integration tests cover:
 
 
 
-Current Status:
+\### Current Status
 
 
 
-\*\*18 tests passed\*\*
+✅ \*\*18 tests passed\*\*
 
 
 
@@ -412,27 +412,27 @@ auth-backend
 
 │   ├── config
 
-│   │     prisma.js
+│   │   └── prisma.js
 
 │   │
 
 │   ├── controllers
 
-│   │     authController.js
+│   │   └── authController.js
 
 │   │
 
 │   ├── middleware
 
-│   │     authMiddleware.js
+│   │   ├── authMiddleware.js
 
-│   │     validationMiddleware.js
+│   │   └── validationMiddleware.js
 
 │   │
 
 │   ├── routes
 
-│   │     authRoutes.js
+│   │   └── authRoutes.js
 
 │   │
 
@@ -444,13 +444,13 @@ auth-backend
 
 ├── tests
 
-│     auth.test.js
+│   └── auth.test.js
 
 │
 
 ├── logs
 
-│     otp.log
+│   └── otp.log
 
 │
 
@@ -684,7 +684,7 @@ npm start
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -696,7 +696,7 @@ POST
 
 
 
-Body:
+Request Body:
 
 
 
@@ -724,7 +724,7 @@ Body:
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -736,7 +736,7 @@ POST
 
 
 
-Body:
+Request Body:
 
 
 
@@ -762,7 +762,7 @@ Body:
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -782,7 +782,7 @@ POST
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -802,7 +802,7 @@ POST
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -826,7 +826,7 @@ Requires Bearer Token.
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -846,7 +846,7 @@ POST
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -866,7 +866,7 @@ POST
 
 
 
-POST
+\*\*POST\*\*
 
 
 
@@ -886,7 +886,7 @@ POST
 
 
 
-GET
+\*\*GET\*\*
 
 
 
@@ -952,7 +952,13 @@ Expected output:
 
 ```text
 
-18 tests passed
+PASS tests/auth.test.js
+
+
+
+Test Suites: 1 passed, 1 total
+
+Tests:       18 passed, 18 total
 
 ```
 
@@ -982,7 +988,7 @@ Expected output:
 
 \- OTP expiration
 
-\- Prisma ORM to prevent SQL injection
+\- Prisma ORM helps prevent SQL injection
 
 
 
@@ -1078,13 +1084,13 @@ Contains:
 
 
 
-\- challenge.txt
+\- `challenge.txt`
 
-\- proof.txt
+\- `proof.txt`
 
-\- proof\_pub.pem
+\- `proof\_pub.pem`
 
-\- compute\_proof.ps1
+\- `compute\_proof.ps1`
 
 
 
@@ -1096,7 +1102,11 @@ Contains:
 
 
 
+```text
+
 https://github.com/ChinmoyDeb/auth-backend
+
+```
 
 
 
@@ -1108,17 +1118,19 @@ https://github.com/ChinmoyDeb/auth-backend
 
 
 
-Chinmoy Deb
+\*\*Chinmoy Deb\*\*  
+
+B.Tech CSE  
+
+VIT Vellore  
+
+2023 – 2027
 
 
 
-B.Tech CSE 
+\---
 
 
 
-VIT Vellore
 
-
-
-2023 - 2027
 
